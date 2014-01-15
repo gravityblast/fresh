@@ -1,4 +1,10 @@
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
+
+.DS_Store
+tmp
+/fresh
+/runner.conf.dev
+
 *.o
 *.a
 *.so
