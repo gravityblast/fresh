@@ -47,6 +47,10 @@ Here is a sample config file with the default settings:
 
 * [Andrea Franz](http://gravityblast.com)
 
+## More
+
+* [Mailing List](https://groups.google.com/d/forum/golang-fresh)
+
 ## Contributing
 
 1. Fork it
