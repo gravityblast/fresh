@@ -4,7 +4,7 @@ Fresh is a command line tool that builds and (re)starts your web application eve
 
 If the web framework you are using supports the Fresh runner, it will show build errors on your browser.
 
-It currently works with [Traffic](https://github.com/pilu/traffic)), [Martini](https://github.com/codegangsta/martini) and [gocraft/web](https://github.com/gocraft/web).
+It currently works with [Traffic](https://github.com/pilu/traffic), [Martini](https://github.com/codegangsta/martini) and [gocraft/web](https://github.com/gocraft/web).
 
 ## Installation
 
