@@ -25,13 +25,8 @@ func run() bool {
 		fatal(err)
 	}
 
-	go func() {
-		io.Copy(appLogWriter{}, stderr)
-	}()
-
-	go func() {
-		io.Copy(appLogWriter{}, stdout)
-	}()
+	go io.Copy(appLogWriter{}, stderr)
+	go io.Copy(appLogWriter{}, stdout)
 
 	go func() {
 		<-stopChannel
