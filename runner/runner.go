@@ -27,6 +27,9 @@ func run() bool {
 
 	go func() {
 		io.Copy(appLogWriter{}, stderr)
+	}()
+
+	go func() {
 		io.Copy(appLogWriter{}, stdout)
 	}()
 
