@@ -5,6 +5,7 @@ import (
 	"os"
 	"runtime"
 	"strings"
+	"syscall"
 	"time"
 )
 
@@ -87,6 +88,16 @@ func initLogFuncs() {
 	appLog = newLogFunc("app")
 }
 
+func initLimit() {
+	var rLimit syscall.Rlimit
+	rLimit.Max = 10000
+	rLimit.Cur = 10000
+	err := syscall.Setrlimit(syscall.RLIMIT_NOFILE, &rLimit)
+	if err != nil {
+		fmt.Println("Error Setting Rlimit ", err)
+	}
+}
+
 func setEnvVars() {
 	os.Setenv("DEV_RUNNER", "1")
 	wd, err := os.Getwd()
@@ -103,6 +114,7 @@ func setEnvVars() {
 // Watches for file changes in the root directory.
 // After each file system event it builds and (re)starts the application.
 func Start() {
+	initLimit()
 	initSettings()
 	initLogFuncs()
 	initFolders()
