@@ -2,12 +2,13 @@ package runner
 
 import (
 	"fmt"
-	"github.com/pilu/config"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/pilu/config"
 )
 
 const (
@@ -29,7 +30,10 @@ var settings = map[string]string{
 	"log_color_runner":  "green",
 	"log_color_watcher": "magenta",
 	"log_color_app":     "",
+	"exclude_dir":       "",
 }
+
+var excludedDirs map[string]bool
 
 var colors = map[string]string{
 	"reset":          "0",
@@ -91,9 +95,22 @@ func loadRunnerConfigSettings() {
 	}
 }
 
+func initExcludedDirs() {
+	excludedDirs = make(map[string]bool)
+	for _, dir := range strings.Split(settings["exclude_dir"], ",") {
+		dp, err := filepath.Abs(dir)
+		if err != nil {
+			continue
+		}
+		excludedDirs[dp] = true
+		fmt.Printf("Directory %s is not watched\n", dp)
+	}
+}
+
 func initSettings() {
 	loadEnvSettings()
 	loadRunnerConfigSettings()
+	initExcludedDirs()
 }
 
 func getenv(key, defaultValue string) string {
