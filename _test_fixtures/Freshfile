@@ -1,0 +1,6 @@
+[.go, .tpl, .tmpl, .html]
+test: go test
+build: go build -o hello
+
+[stylesheets: .less]
+less-compiler: lessc less/application.less > css/apllication.css
