@@ -13,12 +13,19 @@ import (
 type Runner struct {
 	Sections []*Section
 	DoneChan chan bool
+	SigChan  chan os.Signal
 }
 
 func newRunner() *Runner {
-	return &Runner{
+	r := &Runner{
 		DoneChan: make(chan bool),
+		SigChan:  make(chan os.Signal),
 	}
+
+	signal.Notify(r.SigChan, os.Interrupt)
+	signal.Notify(r.SigChan, os.Kill)
+
+	return r
 }
 
 func newRunnerWithFreshfile(freshfilePath string) (*Runner, error) {
@@ -66,14 +73,11 @@ func (r *Runner) Stop() {
 
 func (r *Runner) ListenForSignals() {
 	logger.log("Listening for signals")
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, os.Interrupt)
-	signal.Notify(sc, os.Kill)
-	<-sc
+	<-r.SigChan
 	fmt.Printf("Interrupt a second time to quit\n")
 	logger.log("Waiting for a second signal")
 	select {
-	case <-sc:
+	case <-r.SigChan:
 		logger.log("Second signal received")
 		r.DoneChan <- true
 	case <-time.After(1 * time.Second):
