@@ -2,24 +2,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/pilu/config"
 	"os"
 	"os/signal"
 	"runtime"
-	"sync"
 	"time"
+
+	"github.com/pilu/config"
 )
 
 type Runner struct {
 	Sections []*Section
-	DoneChan chan bool
-	StopChan chan bool
 }
 
 func newRunner() *Runner {
-	return &Runner{
-		StopChan: make(chan bool),
-	}
+	return &Runner{}
 }
 
 func newRunnerWithFreshfile(freshfilePath string) (*Runner, error) {
@@ -41,48 +37,47 @@ func newRunnerWithFreshfile(freshfilePath string) (*Runner, error) {
 }
 
 func (r *Runner) NewSection(description string) *Section {
-	s := newSection(description, r.StopChan)
+	s := newSection(description)
 	r.Sections = append(r.Sections, s)
 	return s
 }
 
 func (r *Runner) Run(done chan bool) {
-	var wg sync.WaitGroup
-	r.Stop()
 	logger.log("Running...")
 	logger.log("%d goroutines", runtime.NumGoroutine())
 	go r.ListenForSignals(done)
 
 	for _, s := range r.Sections {
-		wg.Add(1)
 		go func(s *Section) {
-			defer wg.Done()
 			s.Run()
 		}(s)
 	}
-	wg.Wait()
-	logger.log("finish")
 }
 
 func (r *Runner) Stop() {
-	logger.log("stopping all sections")
+	logger.log("Stopping all sections")
 	for _, s := range r.Sections {
 		s.Stop()
 	}
 }
 
 func (r *Runner) ListenForSignals(done chan bool) {
+	logger.log("Listening for signals")
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, os.Interrupt)
+	signal.Notify(sc, os.Kill)
 	<-sc
 	fmt.Printf("Interrupt a second time to quit\n")
+	logger.log("Waiting for a second signal")
 	select {
 	case <-sc:
-		r.StopChan <- true
+		logger.log("Second signal received")
 		done <- true
 	case <-time.After(1 * time.Second):
-		r.StopChan <- true
+		logger.log("Timeout")
+		logger.log("Stopping...")
 		r.Stop()
+		logger.log("Calling Run...")
 		r.Run(done)
 	}
 }

@@ -44,8 +44,8 @@ func (c *Command) build() error {
 	return nil
 }
 
-func (c *Command) Run(done chan bool) {
-	logger.log("running command %v\n", c.Name)
+func (c *Command) Run() error {
+	logger.log("Running command %v\n", c.Name)
 
 	err := c.build()
 	if err != nil {
@@ -56,13 +56,16 @@ func (c *Command) Run(done chan bool) {
 	go io.Copy(c.Logger, c.Stderr)
 
 	err = c.Cmd.Run()
-	logger.log("Errors on %s: %v\n", c.CmdString, err)
-	done <- true
+	if err != nil {
+		logger.log("Errors on `%s`: %v\n", c.Name, err)
+	}
+
+	return err
 }
 
 func (c *Command) Stop() {
 	if c.Cmd != nil && c.Cmd.Process != nil {
-		logger.log("killing process %v\n", c.CmdString)
+		logger.log("Killing process `%s`\n", c.Name)
 		c.Cmd.Process.Kill()
 	}
 }

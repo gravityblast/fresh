@@ -9,10 +9,9 @@ type Section struct {
 	Name       string
 	Extensions []string
 	Commands   []*Command
-	StopChan	 chan bool
 }
 
-func newSection(description string, stopChan chan bool) *Section {
+func newSection(description string) *Section {
 	var name string
 	parts := strings.Split(description, ":")
 	if len(parts) > 1 {
@@ -32,7 +31,6 @@ func newSection(description string, stopChan chan bool) *Section {
 	return &Section{
 		Name:       name,
 		Extensions: extensions,
-		StopChan:		stopChan,
 	}
 }
 
@@ -43,19 +41,14 @@ func (s *Section) NewCommand(name, command string) *Command {
 }
 
 func (s *Section) Run() {
-	logger.log("Running section %s", s.Name)
+	logger.log("Running section `%s`", s.Name)
 	for _, c := range s.Commands {
-		done := make(chan bool)
-		go func(c *Command) {
-			c.Run(done)
-		}(c)
-		select {
-		case <-done:
-			continue
-		case <-s.StopChan:
-			return
+		err := c.Run()
+		if err != nil {
+			break
 		}
 	}
+	logger.log("Section ended `%s`", s.Name)
 }
 
 func (s *Section) Stop() {

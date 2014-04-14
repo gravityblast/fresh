@@ -1,8 +1,8 @@
 package main
 
 import (
-	"os"
 	"flag"
+	"os"
 )
 
 var logger *Logger
@@ -20,7 +20,9 @@ func main() {
 		os.Exit(1)
 	}
 
+	logger.log("Process %d", os.Getpid())
 	done := make(chan bool)
 	r.Run(done)
-	<-r.DoneChan
+	<-done
+	println("the end")
 }
