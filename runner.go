@@ -12,10 +12,13 @@ import (
 
 type Runner struct {
 	Sections []*Section
+	DoneChan chan bool
 }
 
 func newRunner() *Runner {
-	return &Runner{}
+	return &Runner{
+		DoneChan: make(chan bool),
+	}
 }
 
 func newRunnerWithFreshfile(freshfilePath string) (*Runner, error) {
@@ -42,10 +45,10 @@ func (r *Runner) NewSection(description string) *Section {
 	return s
 }
 
-func (r *Runner) Run(done chan bool) {
+func (r *Runner) Run() {
 	logger.log("Running...")
 	logger.log("%d goroutines", runtime.NumGoroutine())
-	go r.ListenForSignals(done)
+	go r.ListenForSignals()
 
 	for _, s := range r.Sections {
 		go func(s *Section) {
@@ -61,7 +64,7 @@ func (r *Runner) Stop() {
 	}
 }
 
-func (r *Runner) ListenForSignals(done chan bool) {
+func (r *Runner) ListenForSignals() {
 	logger.log("Listening for signals")
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, os.Interrupt)
@@ -72,12 +75,12 @@ func (r *Runner) ListenForSignals(done chan bool) {
 	select {
 	case <-sc:
 		logger.log("Second signal received")
-		done <- true
+		r.DoneChan <- true
 	case <-time.After(1 * time.Second):
 		logger.log("Timeout")
 		logger.log("Stopping...")
 		r.Stop()
 		logger.log("Calling Run...")
-		r.Run(done)
+		r.Run()
 	}
 }

@@ -21,8 +21,7 @@ func main() {
 	}
 
 	logger.log("Process %d", os.Getpid())
-	done := make(chan bool)
-	r.Run(done)
-	<-done
+	r.Run()
+	<-r.DoneChan
 	println("the end")
 }
