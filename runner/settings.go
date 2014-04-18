@@ -24,6 +24,7 @@ var settings = map[string]string{
 	"valid_ext":         ".go, .tpl, .tmpl, .html",
 	"build_delay":       "600",
 	"colors":            "1",
+	"race":              "0",
 	"log_color_main":    "cyan",
 	"log_color_build":   "yellow",
 	"log_color_runner":  "green",
