@@ -8,7 +8,7 @@ import (
 var logger *Logger
 
 func init() {
-	logger = newLogger("fresh")
+	logger = newLoggerWithColor("fresh", "white")
 	flag.BoolVar(&logger.Verbose, "verbose", false, "verbose")
 	flag.Parse()
 }
