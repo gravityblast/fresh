@@ -1,10 +1,11 @@
 package runner
 
 import (
-	"github.com/howeyc/fsnotify"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/howeyc/fsnotify"
 )
 
 func watchFolder(path string) {
@@ -17,7 +18,7 @@ func watchFolder(path string) {
 		for {
 			select {
 			case ev := <-watcher.Event:
-				if isWatchedFile(ev.Name) {
+				if isWatchedFile(ev.Name) && !ev.IsAttrib() {
 					watcherLog("sending event %s", ev)
 					startChannel <- ev.String()
 				}
