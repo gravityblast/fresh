@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 )
 
@@ -9,14 +10,18 @@ var logger *Logger
 
 func init() {
 	logger = newLoggerWithColor("fresh", "white")
-	flag.BoolVar(&logger.Verbose, "verbose", false, "verbose")
-	flag.Parse()
 }
 
 func main() {
-	r, err := newRunnerWithFreshfile("Freshfile")
+	var freshfilePath string
+
+	flag.BoolVar(&logger.Verbose, "v", false, "verbose")
+	flag.StringVar(&freshfilePath, "f", "./Freshfile", "Freshfile path")
+	flag.Parse()
+
+	r, err := newRunnerWithFreshfile(freshfilePath)
 	if err != nil {
-		logger.log("%s\n", err.Error())
+		fmt.Printf("%s\n", err)
 		os.Exit(1)
 	}
 
