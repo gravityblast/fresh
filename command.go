@@ -7,26 +7,26 @@ import (
 	"strings"
 )
 
-type Command struct {
+type command struct {
 	Name      string
 	CmdString string
 	Cmd       *exec.Cmd
 	Stdout    io.ReadCloser
 	Stderr    io.ReadCloser
-	Logger    *Logger
+	Logger    *customLogger
 }
 
-func newCommand(name, command string) *Command {
-	c := &Command{
+func newCommand(name, cmd string) *command {
+	c := &command{
 		Name:      name,
-		CmdString: command,
+		CmdString: cmd,
 		Logger:    newLogger(name),
 	}
 
 	return c
 }
 
-func (c *Command) build() error {
+func (c *command) build() error {
 	options := strings.Split(c.CmdString, " ")
 	c.Cmd = exec.Command(options[0], options[1:]...)
 
@@ -44,7 +44,7 @@ func (c *Command) build() error {
 	return nil
 }
 
-func (c *Command) Run() error {
+func (c *command) Run() error {
 	logger.log("Running command %v\n", c.Name)
 
 	err := c.build()
@@ -63,7 +63,7 @@ func (c *Command) Run() error {
 	return err
 }
 
-func (c *Command) Stop() {
+func (c *command) Stop() {
 	if c.Cmd != nil && c.Cmd.Process != nil {
 		logger.log("Killing process `%s`\n", c.Name)
 		c.Cmd.Process.Kill()

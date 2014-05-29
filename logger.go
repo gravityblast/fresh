@@ -28,14 +28,14 @@ var loggerAvailableColors = []string{
 	"blue",
 }
 
-type Logger struct {
+type customLogger struct {
 	Name    string
 	Verbose bool
 	Color   int
 	*log.Logger
 }
 
-func (logger *Logger) Write(p []byte) (n int, err error) {
+func (logger *customLogger) Write(p []byte) (n int, err error) {
 	logger.log(string(p))
 	return len(p), nil
 }
@@ -45,7 +45,7 @@ var (
 	loggerMaxNameLength int
 )
 
-func newLogger(name string) *Logger {
+func newLogger(name string) *customLogger {
 	colorIndex := int(math.Mod(float64(loggerColorIndex), float64(len(loggerAvailableColors))))
 	colorName := loggerAvailableColors[colorIndex]
 
@@ -58,8 +58,8 @@ func newLogger(name string) *Logger {
 	return newLoggerWithColor(name, colorName)
 }
 
-func newLoggerWithColor(name, colorName string) *Logger {
-	return &Logger{
+func newLoggerWithColor(name, colorName string) *customLogger {
+	return &customLogger{
 		Name:    name,
 		Logger:  log.New(os.Stderr, "", 0),
 		Verbose: true,
@@ -67,7 +67,7 @@ func newLoggerWithColor(name, colorName string) *Logger {
 	}
 }
 
-func (logger *Logger) log(format string, v ...interface{}) {
+func (logger *customLogger) log(format string, v ...interface{}) {
 	if !logger.Verbose {
 		return
 	}

@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-var logger *Logger
+var logger *customLogger
 
 func init() {
 	logger = newLoggerWithColor("fresh", "white")

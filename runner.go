@@ -10,14 +10,14 @@ import (
 	"github.com/pilu/config"
 )
 
-type Runner struct {
-	Sections []*Section
+type runner struct {
+	Sections []*section
 	DoneChan chan bool
 	SigChan  chan os.Signal
 }
 
-func newRunner() *Runner {
-	r := &Runner{
+func newRunner() *runner {
+	r := &runner{
 		DoneChan: make(chan bool),
 		SigChan:  make(chan os.Signal),
 	}
@@ -28,7 +28,7 @@ func newRunner() *Runner {
 	return r
 }
 
-func newRunnerWithFreshfile(freshfilePath string) (*Runner, error) {
+func newRunnerWithFreshfile(freshfilePath string) (*runner, error) {
 	r := newRunner()
 
 	sections, err := config.ParseFile(freshfilePath, "main: *")
@@ -46,32 +46,32 @@ func newRunnerWithFreshfile(freshfilePath string) (*Runner, error) {
 	return r, nil
 }
 
-func (r *Runner) NewSection(description string) *Section {
+func (r *runner) NewSection(description string) *section {
 	s := newSection(description)
 	r.Sections = append(r.Sections, s)
 	return s
 }
 
-func (r *Runner) Run() {
+func (r *runner) Run() {
 	logger.log("Running...")
 	logger.log("%d goroutines", runtime.NumGoroutine())
 	go r.ListenForSignals()
 
 	for _, s := range r.Sections {
-		go func(s *Section) {
+		go func(s *section) {
 			s.Run()
 		}(s)
 	}
 }
 
-func (r *Runner) Stop() {
+func (r *runner) Stop() {
 	logger.log("Stopping all sections")
 	for _, s := range r.Sections {
 		s.Stop()
 	}
 }
 
-func (r *Runner) ListenForSignals() {
+func (r *runner) ListenForSignals() {
 	logger.log("Listening for signals")
 	<-r.SigChan
 	fmt.Printf("Interrupt a second time to quit\n")

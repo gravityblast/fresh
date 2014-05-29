@@ -5,13 +5,13 @@ import (
 	"strings"
 )
 
-type Section struct {
+type section struct {
 	Name       string
 	Extensions []string
-	Commands   []*Command
+	Commands   []*command
 }
 
-func newSection(description string) *Section {
+func newSection(description string) *section {
 	var name string
 	parts := strings.Split(description, ":")
 	if len(parts) > 1 {
@@ -28,19 +28,19 @@ func newSection(description string) *Section {
 		}
 	}
 
-	return &Section{
+	return &section{
 		Name:       name,
 		Extensions: extensions,
 	}
 }
 
-func (s *Section) NewCommand(name, command string) *Command {
-	c := newCommand(name, command)
+func (s *section) NewCommand(name, cmd string) *command {
+	c := newCommand(name, cmd)
 	s.Commands = append(s.Commands, c)
 	return c
 }
 
-func (s *Section) Run() {
+func (s *section) Run() {
 	logger.log("Running section `%s`", s.Name)
 	for _, c := range s.Commands {
 		err := c.Run()
@@ -51,7 +51,7 @@ func (s *Section) Run() {
 	logger.log("Section ended `%s`", s.Name)
 }
 
-func (s *Section) Stop() {
+func (s *section) Stop() {
 	logger.log("Stopping section %s", s.Name)
 	for _, c := range s.Commands {
 		c.Stop()

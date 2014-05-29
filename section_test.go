@@ -7,7 +7,7 @@ import (
 )
 
 func TestNewSection(t *testing.T) {
-	var s *Section
+	var s *section
 
 	s = newSection(".go,.tpl, .tmpl,    .html, , , ")
 	assert.Equal(t, "", s.Name)
