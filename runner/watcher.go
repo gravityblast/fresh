@@ -1,10 +1,12 @@
 package runner
 
 import (
-	"github.com/howeyc/fsnotify"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/go-utils/uslice"
+	"github.com/howeyc/fsnotify"
 )
 
 func watchFolder(path string) {
@@ -40,6 +42,9 @@ func watch() {
 	filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() && !isTmpDir(path) {
 			if len(path) > 1 && strings.HasPrefix(filepath.Base(path), ".") {
+				return filepath.SkipDir
+			}
+			if uslice.StrHas(skipFolders(), filepath.Base(path)) {
 				return filepath.SkipDir
 			}
 
