@@ -2,12 +2,13 @@ package runner
 
 import (
 	"fmt"
-	"github.com/pilu/config"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/pilu/config"
 )
 
 const (
@@ -29,7 +30,11 @@ var settings = map[string]string{
 	"log_color_runner":  "green",
 	"log_color_watcher": "magenta",
 	"log_color_app":     "",
+
+	"skip_folders": "bower_components, node_modules",
 }
+
+var skipFoldersList []string
 
 var colors = map[string]string{
 	"reset":          "0",
@@ -135,4 +140,14 @@ func buildDelay() time.Duration {
 	value, _ := strconv.Atoi(settings["build_delay"])
 
 	return time.Duration(value)
+}
+
+func skipFolders() []string {
+	if skipFoldersList != nil {
+		return skipFoldersList
+	}
+	for _, e := range strings.Split(settings["skip_folders"], ",") {
+		skipFoldersList = append(skipFoldersList, strings.TrimSpace(e))
+	}
+	return skipFoldersList
 }
