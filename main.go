@@ -22,7 +22,11 @@ import (
 
 func main() {
 	configPath := flag.String("c", "", "config file path")
+	watchPath := flag.String("w", "", "path to watch files")
+
 	flag.Parse()
+
+	// TODO: nice big refactoring of the flags + config
 
 	if *configPath != "" {
 		if _, err := os.Stat(*configPath); err != nil {
@@ -32,6 +36,7 @@ func main() {
 			os.Setenv("RUNNER_CONFIG_PATH", *configPath)
 		}
 	}
+	os.Setenv("RUNNER_WATCH_PATH", *watchPath)
 
 	runner.Start()
 }
