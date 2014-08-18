@@ -1,10 +1,11 @@
 package runner
 
 import (
-	"github.com/howeyc/fsnotify"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/howeyc/fsnotify"
 )
 
 func watchFolder(path string) {
@@ -40,6 +41,12 @@ func watch() {
 	filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() && !isTmpDir(path) {
 			if len(path) > 1 && strings.HasPrefix(filepath.Base(path), ".") {
+				return filepath.SkipDir
+			}
+
+			if strings.Contains(path, "bower_components") ||
+				strings.Contains(path, "assets") ||
+				strings.Contains(path, "assets_src") {
 				return filepath.SkipDir
 			}
 
