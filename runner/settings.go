@@ -20,6 +20,7 @@ var settings = map[string]string{
 	"config_path":       "./runner.conf",
 	"root":              ".",
 	"tmp_path":          "./tmp",
+	"watch_paths":       "",
 	"build_name":        "runner-build",
 	"build_log":         "runner-build-errors.log",
 	"valid_ext":         ".go, .tpl, .tmpl, .html",
@@ -114,6 +115,31 @@ func tmpPath() string {
 	return settings["tmp_path"]
 }
 
+func ignoreList() []string {
+	igs := strings.Split(settings["ignore"], ",")
+	last := 0
+	for _, v := range igs {
+		v := strings.TrimSpace(v)
+		if v != "" {
+			igs[last] = v
+			last++
+		}
+	}
+	return igs[:last]
+}
+
+func watchPaths() []string {
+	igs := strings.Split(settings["watch_paths"], ",")
+	last := 0
+	for _, v := range igs {
+		v := strings.TrimSpace(v)
+		if v != "" {
+			igs[last] = v
+			last++
+		}
+	}
+	return igs[:last]
+}
 func buildName() string {
 	return settings["build_name"]
 }
