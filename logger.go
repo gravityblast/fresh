@@ -72,7 +72,7 @@ func (logger *customLogger) log(format string, v ...interface{}) {
 		return
 	}
 	now := time.Now()
-	timeString := fmt.Sprintf("%d:%d:%02d", now.Hour(), now.Minute(), now.Second())
+	timeString := fmt.Sprintf("%02d:%02d:%02d", now.Hour(), now.Minute(), now.Second())
 	formatPadding := fmt.Sprintf("%%-%ds", loggerMaxNameLength)
 	prefix := fmt.Sprintf(formatPadding, logger.Name)
 	format = fmt.Sprintf("\033[%dm%s %s | \033[0m%s", logger.Color, timeString, prefix, format)

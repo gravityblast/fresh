@@ -1,20 +1,14 @@
 package main
 
 import (
-	assert "github.com/pilu/miniassert"
 	"testing"
+
+	assert "github.com/pilu/miniassert"
 )
 
 func TestNewRunner(t *testing.T) {
 	r := newRunner()
 	assert.Equal(t, 0, len(r.Sections))
-}
-
-func TestRunner_NewSection(t *testing.T) {
-	r := newRunner()
-	s := r.NewSection(".go")
-	assert.Equal(t, 1, len(r.Sections))
-	assert.Equal(t, s, r.Sections[0])
 }
 
 func TestNewRunnerWithFreshfile_WithFileNotFound(t *testing.T) {

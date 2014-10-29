@@ -6,8 +6,6 @@ import (
 	"os/signal"
 	"runtime"
 	"time"
-
-	"github.com/pilu/config"
 )
 
 type runner struct {
@@ -31,25 +29,14 @@ func newRunner() *runner {
 func newRunnerWithFreshfile(freshfilePath string) (*runner, error) {
 	r := newRunner()
 
-	sections, err := config.ParseFile(freshfilePath, "main: *")
+	sections, err := parseConfigFile(freshfilePath, "main: *")
 	if err != nil {
 		return r, err
 	}
 
-	for s, opts := range sections {
-		section := r.NewSection(s)
-		for name, cmd := range opts {
-			section.NewCommand(name, cmd)
-		}
-	}
+	r.Sections = sections
 
 	return r, nil
-}
-
-func (r *runner) NewSection(description string) *section {
-	s := newSection(description)
-	r.Sections = append(r.Sections, s)
-	return s
 }
 
 func (r *runner) Run() {
