@@ -11,9 +11,9 @@ type section struct {
 	Commands   []*command
 }
 
-func newSection(description string) *section {
-	var name string
-	parts := strings.Split(description, ":")
+func newSection(name string) *section {
+	var description string
+	parts := strings.SplitN(name, ":", 2)
 	if len(parts) > 1 {
 		name = parts[0]
 		description = parts[1]

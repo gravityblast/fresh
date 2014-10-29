@@ -9,14 +9,15 @@ import (
 func TestNewSection(t *testing.T) {
 	var s *section
 
-	s = newSection(".go,.tpl, .tmpl,    .html, , , ")
-	assert.Equal(t, "", s.Name)
-	assert.Equal(t, []string{".go", ".tpl", ".tmpl", ".html"}, s.Extensions)
-	assert.Equal(t, 0, len(s.Commands))
-
-	s = newSection("stylesheets: .css, .less")
+	s = newSection("stylesheets: .css, .less, , , ")
 	assert.Equal(t, "stylesheets", s.Name)
 	assert.Equal(t, []string{".css", ".less"}, s.Extensions)
+	assert.Equal(t, 0, len(s.Commands))
+
+	// only name, without extensions
+	s = newSection("foo-section")
+	assert.Equal(t, "foo-section", s.Name)
+	assert.Equal(t, 0, len(s.Extensions))
 	assert.Equal(t, 0, len(s.Commands))
 }
 
