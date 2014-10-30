@@ -1,18 +1,21 @@
 package main
 
 import (
-	assert "github.com/pilu/miniassert"
 	"testing"
+
+	assert "github.com/pilu/miniassert"
 )
 
 func TestNewCommand(t *testing.T) {
-	c := newCommand("build", "./build all -o foo")
+	s := newSection("foo")
+	c := newCommand(s, "build", "./build all -o foo")
 	assert.Equal(t, "build", c.Name)
 	assert.Equal(t, "./build all -o foo", c.CmdString)
 }
 
 func TestCommand_Build(t *testing.T) {
-	c := newCommand("build", "./build all -o foo")
+	s := newSection("foo")
+	c := newCommand(s, "build", "./build all -o foo")
 	assert.Nil(t, c.Cmd)
 
 	c.build()

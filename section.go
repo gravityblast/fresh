@@ -35,7 +35,7 @@ func newSection(name string) *section {
 }
 
 func (s *section) NewCommand(name, cmd string) *command {
-	c := newCommand(name, cmd)
+	c := newCommand(s, name, cmd)
 	s.Commands = append(s.Commands, c)
 	return c
 }

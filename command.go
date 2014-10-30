@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os/exec"
@@ -8,6 +9,7 @@ import (
 )
 
 type command struct {
+	Section   *section
 	Name      string
 	CmdString string
 	Cmd       *exec.Cmd
@@ -16,11 +18,13 @@ type command struct {
 	Logger    *customLogger
 }
 
-func newCommand(name, cmd string) *command {
+func newCommand(section *section, name, cmd string) *command {
+	loggerPrefix := fmt.Sprintf("%s - %s", section.Name, name)
 	c := &command{
+		Section:   section,
 		Name:      name,
 		CmdString: cmd,
-		Logger:    newLogger(name),
+		Logger:    newLogger(loggerPrefix),
 	}
 
 	return c
