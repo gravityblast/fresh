@@ -57,7 +57,7 @@ func (c *command) Run() error {
 
 	err = c.Cmd.Run()
 	if err != nil {
-		log.Fatal(err)
+		logger.log("Errors on `%s`: %v\n", c.Name, err)
 	}
 
 	return err
