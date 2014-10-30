@@ -49,7 +49,7 @@ func (c *command) build() error {
 }
 
 func (c *command) Run() error {
-	logger.log("Running command %v\n", c.Name)
+	logger.log("Running command %s: %s\n", c.Name, c.CmdString)
 
 	err := c.build()
 	if err != nil {
@@ -59,10 +59,19 @@ func (c *command) Run() error {
 	go io.Copy(c.Logger, c.Stdout)
 	go io.Copy(c.Logger, c.Stderr)
 
-	err = c.Cmd.Run()
+	err = c.Cmd.Start()
 	if err != nil {
-		logger.log("Errors on `%s`: %v\n", c.Name, err)
+		logger.log("Errors on `%s - %s`: %v\n", c.Section.Name, c.Name, err)
 	}
+
+	logger.log(fmt.Sprintf("`%s - %s` started with pid %d", c.Section.Name, c.Name, c.Cmd.Process.Pid))
+
+	err = c.Cmd.Wait()
+	if err != nil {
+		logger.log("Errors on `%s - %s`: %v\n", c.Section.Name, c.Name, err)
+	}
+
+	logger.log("`%s - %s` ended\n", c.Section.Name, c.Name)
 
 	return err
 }

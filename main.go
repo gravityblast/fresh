@@ -25,7 +25,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	logger.log("Process %d", os.Getpid())
+	logger.log("started with pid %d", os.Getpid())
 	r.Run()
 	<-r.DoneChan
 	println("the end")
