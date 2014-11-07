@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+const defaultConfigFilename = "Freshfile"
+
 var logger *customLogger
 
 func init() {
@@ -16,7 +18,7 @@ func main() {
 	var freshfilePath string
 
 	flag.BoolVar(&logger.Verbose, "v", false, "verbose")
-	flag.StringVar(&freshfilePath, "f", "./Freshfile", "Freshfile path")
+	flag.StringVar(&freshfilePath, "f", defaultConfigFilename, "Freshfile path")
 	flag.Parse()
 
 	r, err := newRunnerWithFreshfile(freshfilePath)
