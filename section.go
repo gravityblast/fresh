@@ -6,31 +6,32 @@ import (
 )
 
 type section struct {
-	Name       string
-	Extensions []string
-	Commands   []*command
+	Name     string
+	Globs    []string
+	Commands []*command
 }
 
-func newSection(name string) *section {
-	var description string
-	parts := strings.SplitN(name, ":", 2)
+func newSection(description string) *section {
+	var globsString string
+	name := description
+	parts := strings.SplitN(description, ":", 2)
 	if len(parts) > 1 {
 		name = parts[0]
-		description = parts[1]
+		globsString = parts[1]
 	}
 
 	extRe := regexp.MustCompile(`\s*,\s*`)
-	extensions := []string{}
-	for _, rawExtension := range extRe.Split(description, -1) {
-		extension := strings.TrimSpace(rawExtension)
-		if len(extension) > 0 {
-			extensions = append(extensions, extension)
+	globs := []string{}
+	for _, rawGlob := range extRe.Split(globsString, -1) {
+		glob := strings.TrimSpace(rawGlob)
+		if len(glob) > 0 {
+			globs = append(globs, glob)
 		}
 	}
 
 	return &section{
-		Name:       name,
-		Extensions: extensions,
+		Name:  name,
+		Globs: globs,
 	}
 }
 
