@@ -49,7 +49,7 @@ func (c *command) build() error {
 }
 
 func (c *command) Run() error {
-	logger.log("Running command %s: %s\n", c.Name, c.CmdString)
+	c.Logger.log(c.CmdString)
 
 	err := c.build()
 	if err != nil {
