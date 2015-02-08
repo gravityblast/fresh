@@ -5,6 +5,7 @@ import (
 	"github.com/pilu/config"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
@@ -113,7 +114,11 @@ func tmpPath() string {
 }
 
 func buildName() string {
-	return settings["build_name"]
+	n := settings["build_name"]
+	if runtime.GOOS == "windows" {
+		n += ".exe"
+	}
+	return n
 }
 func buildPath() string {
 	return filepath.Join(tmpPath(), buildName())
