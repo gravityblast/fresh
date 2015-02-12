@@ -1,7 +1,6 @@
 package runner
 
 import (
-	"io"
 	"os/exec"
 )
 
@@ -10,23 +9,13 @@ func run() bool {
 
 	cmd := exec.Command(buildPath())
 
-	stderr, err := cmd.StderrPipe()
+	cmd.Stdout = appLogWriter{}
+	cmd.Stderr = appLogWriter{}
+
+	err := cmd.Start()
 	if err != nil {
 		fatal(err)
 	}
-
-	stdout, err := cmd.StdoutPipe()
-	if err != nil {
-		fatal(err)
-	}
-
-	err = cmd.Start()
-	if err != nil {
-		fatal(err)
-	}
-
-	go io.Copy(appLogWriter{}, stderr)
-	go io.Copy(appLogWriter{}, stdout)
 
 	go func() {
 		<-stopChannel
