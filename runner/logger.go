@@ -34,7 +34,7 @@ func fatal(err error) {
 type appLogWriter struct{}
 
 func (a appLogWriter) Write(p []byte) (n int, err error) {
-	appLog(string(p))
+	appLog("%s", string(p))
 
 	return len(p), nil
 }
