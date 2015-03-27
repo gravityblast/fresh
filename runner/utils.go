@@ -23,6 +23,13 @@ func isTmpDir(path string) bool {
 	return absolutePath == absoluteTmpPath
 }
 
+func isIgnoreDir(path string) bool {
+	absolutePath, _ := filepath.Abs(path)
+	absoluteIgnorePath, _ := filepath.Abs(ignorePath())
+
+	return absolutePath == absoluteIgnorePath
+}
+
 func isWatchedFile(path string) bool {
 	absolutePath, _ := filepath.Abs(path)
 	absoluteTmpPath, _ := filepath.Abs(tmpPath())
