@@ -1,5 +1,7 @@
 # Fresh
 
+[![Join the chat at https://gitter.im/pilu/fresh](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pilu/fresh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Fresh is a command line tool that builds and (re)starts your web application everytime you save a Go or template file.
 
 If the web framework you are using supports the Fresh runner, it will show build errors on your browser.
