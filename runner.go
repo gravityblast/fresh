@@ -29,14 +29,16 @@ func newRunner() *runner {
 func newRunnerWithFreshfile(freshfilePath string) (*runner, error) {
 	r := newRunner()
 
-	sections, err := parseConfigFile(freshfilePath, "main: *")
-	if err != nil {
-		return r, err
-	}
-
-	r.Sections = sections
-
 	return r, nil
+
+	// sections, err := parseConfigFile(freshfilePath, "main: *")
+	// if err != nil {
+	// 	return r, err
+	// }
+
+	// r.Sections = sections
+
+	// return r, nil
 }
 
 func (r *runner) Run() {

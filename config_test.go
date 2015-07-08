@@ -10,88 +10,38 @@ import (
 
 func TestParseConfig(t *testing.T) {
 	content := `
-  # comment 1
-  ; comment 2
-
-  foo 1
-  bar 2
-
-  [section_1]
-
-  foo       3 # using spaces after the key
-  bar				4 # using tabs after the key
-  # other options for section_1 after section_2
-
-  [section_2]
-  a:1
-  b: 2
-  c : 3
-  d :4
-  e=5
-  f= 6
-  g = 7
-  h =8
-
-  url: http://example.com
-
-  [section_3]
-  `
+  # comment
+  [section 1] # aslid las dlkj s
+	WATCH ./public/js
+	RUN
+	RUN
+  [section 2]
+  [section 3]
+	#WATCH .`
 
 	reader := bufio.NewReader(strings.NewReader(content))
-	sections, err := parseConfig(reader, "main")
 
+	cs := newConfigScanner(reader)
+
+	config := &config{}
+	err := cs.scan(config)
 	assert.Nil(t, err)
-	assert.Equal(t, 4, len(sections))
+	assert.Equal(t, 4, len(config.sections))
 
-	// Main section
-	mainSection := sections[0]
-	assert.Equal(t, 2, len(mainSection.Commands))
-	tests := [][]string{
-		{"foo", "1"},
-		{"bar", "2"},
-	}
+	s := config.sections[0]
+	assert.Equal(t, "MAIN", s.Name)
 
-	for i, opts := range tests {
-		assert.Equal(t, opts[0], mainSection.Commands[i].Name)
-		assert.Equal(t, opts[1], mainSection.Commands[i].CmdString)
-	}
+	s = config.sections[1]
+	assert.Equal(t, "section 1", s.Name)
+	assert.Equal(t, 2, len(s.Commands))
+	assert.Equal(t, "compile-js", s.Commands[0].Name)
+	// assert.Equal(t, "compile-js -w ./public/javascripts", s.Commands[0].CmdString)
+	// assert.Equal(t, "minify-js", s.Commands[1].Name)
+	// assert.Equal(t, "minify-js ./public/javascripts/app.js", s.Commands[1].CmdString)
 
-	// Section 1
-	section1 := sections[1]
-	assert.Equal(t, "section_1", section1.Name)
-	tests = [][]string{
-		{"foo", "3"},
-		{"bar", "4"},
-	}
+	s = config.sections[2]
+	assert.Equal(t, "section 2", s.Name)
 
-	for i, opts := range tests {
-		assert.Equal(t, opts[0], section1.Commands[i].Name)
-		assert.Equal(t, opts[1], section1.Commands[i].CmdString)
-	}
-
-	// Section 2
-	section2 := sections[2]
-	assert.Equal(t, "section_2", section2.Name)
-	assert.Equal(t, 9, len(section2.Commands))
-	tests = [][]string{
-		{"a", "1"},
-		{"b", "2"},
-		{"c", "3"},
-		{"d", "4"},
-		{"e", "5"},
-		{"f", "6"},
-		{"g", "7"},
-		{"h", "8"},
-		{"url", "http://example.com"},
-	}
-
-	for i, opts := range tests {
-		assert.Equal(t, opts[0], section2.Commands[i].Name)
-		assert.Equal(t, opts[1], section2.Commands[i].CmdString)
-	}
-
-	// Section 3
-	section3 := sections[3]
-	assert.Equal(t, "section_3", section3.Name)
-	assert.Equal(t, 0, len(section3.Commands))
+	s = config.sections[3]
+	assert.Equal(t, "section 3", s.Name)
 }

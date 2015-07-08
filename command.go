@@ -18,7 +18,14 @@ type command struct {
 	Logger    *customLogger
 }
 
-func newCommand(section *section, name, cmd string) *command {
+func newCommand(section *section, cmd string) *command {
+	var name string
+	parts := strings.Split(cmd, " ")
+
+	if len(parts) > 0 {
+		name = parts[0]
+	}
+
 	loggerPrefix := fmt.Sprintf("%s - %s", section.Name, name)
 	c := &command{
 		Section:   section,
