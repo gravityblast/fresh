@@ -44,7 +44,7 @@ func watch() {
 
 	filepath.Walk(watchPath, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() && !isTmpDir(path) {
-			if len(path) > 1 && strings.HasPrefix(filepath.Base(path), ".") {
+			if (len(path) > 1 && strings.HasPrefix(filepath.Base(path), ".")) || (isVendorDir(path)) {
 				return filepath.SkipDir
 			}
 

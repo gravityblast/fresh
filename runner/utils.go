@@ -23,6 +23,11 @@ func isTmpDir(path string) bool {
 	return absolutePath == absoluteTmpPath
 }
 
+func isVendorDir(path string) bool {
+	absolutePath, _ := filepath.Abs(path)
+	return filepath.Base(absolutePath) == "vendor"
+}
+
 func isWatchedFile(path string) bool {
 	absolutePath, _ := filepath.Abs(path)
 	absoluteTmpPath, _ := filepath.Abs(tmpPath())
