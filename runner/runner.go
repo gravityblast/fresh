@@ -2,6 +2,7 @@ package runner
 
 import (
 	"io"
+	"os"
 	"os/exec"
 )
 
@@ -9,6 +10,10 @@ func run() bool {
 	runnerLog("Running...")
 
 	cmd := exec.Command(buildPath())
+
+	if len(os.Args) > 2 && os.Args[1] == "-c" {
+		cmd.Args = append([]string{buildPath()}, os.Args[3:]...)
+	}
 
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
