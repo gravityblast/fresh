@@ -5,7 +5,6 @@ import (
 	"os"
 	"runtime"
 	"strings"
-	"syscall"
 	"time"
 )
 
@@ -86,16 +85,6 @@ func initLogFuncs() {
 	runnerLog = newLogFunc("runner")
 	buildLog = newLogFunc("build")
 	appLog = newLogFunc("app")
-}
-
-func initLimit() {
-	var rLimit syscall.Rlimit
-	rLimit.Max = 10000
-	rLimit.Cur = 10000
-	err := syscall.Setrlimit(syscall.RLIMIT_NOFILE, &rLimit)
-	if err != nil {
-		fmt.Println("Error Setting Rlimit ", err)
-	}
 }
 
 func setEnvVars() {

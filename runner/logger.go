@@ -3,13 +3,14 @@ package runner
 import (
 	"fmt"
 	logPkg "log"
-	"os"
 	"time"
+
+	"github.com/mattn/go-colorable"
 )
 
 type logFunc func(string, ...interface{})
 
-var logger = logPkg.New(os.Stderr, "", 0)
+var logger = logPkg.New(colorable.NewColorableStderr(), "", 0)
 
 func newLogFunc(prefix string) func(string, ...interface{}) {
 	color, clear := "", ""
