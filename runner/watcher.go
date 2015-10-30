@@ -1,10 +1,11 @@
 package runner
 
 import (
-	"github.com/howeyc/fsnotify"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/howeyc/fsnotify"
 )
 
 func watchFolder(path string) {
@@ -35,17 +36,30 @@ func watchFolder(path string) {
 	}
 }
 
-func watch() {
-	root := root()
-	filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
-		if info.IsDir() && !isTmpDir(path) {
-			if len(path) > 1 && strings.HasPrefix(filepath.Base(path), ".") {
+func checkPath(ignore []string, path string, info os.FileInfo, err error) error {
+	if info.IsDir() && !isTmpDir(path) {
+		if len(path) > 1 && strings.HasPrefix(filepath.Base(path), ".") {
+			return filepath.SkipDir
+		}
+		for _, ig := range ignore {
+			if strings.Contains(path, ig) {
 				return filepath.SkipDir
 			}
-
-			watchFolder(path)
 		}
+		watchFolder(path)
+	}
+	return err
+}
 
-		return err
+func watch() {
+	root := root()
+	ignore := ignoreList()
+	filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		return checkPath(ignore, path, info, err)
 	})
+	for _, w := range watchPaths() {
+		filepath.Walk(w, func(path string, info os.FileInfo, err error) error {
+			return checkPath(ignore, path, info, err)
+		})
+	}
 }
