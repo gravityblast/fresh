@@ -1,10 +1,11 @@
 package runner
 
 import (
-	"github.com/howeyc/fsnotify"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/howeyc/fsnotify"
 )
 
 func watchFolder(path string) {
@@ -17,7 +18,7 @@ func watchFolder(path string) {
 		for {
 			select {
 			case ev := <-watcher.Event:
-				if isWatchedFile(ev.Name) {
+				if isWatchedFile(ev.Name) && !ev.IsAttrib() {
 					watcherLog("sending event %s", ev)
 					startChannel <- ev.String()
 				}
@@ -36,10 +37,14 @@ func watchFolder(path string) {
 }
 
 func watch() {
-	root := root()
-	filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+	watchPath, err := filepath.Abs(watchPath())
+	if err != nil {
+		fatal(err)
+	}
+
+	filepath.Walk(watchPath, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() && !isTmpDir(path) {
-			if len(path) > 1 && strings.HasPrefix(filepath.Base(path), ".") {
+			if (len(path) > 1 && strings.HasPrefix(filepath.Base(path), ".")) || (isVendorDir(path)) {
 				return filepath.SkipDir
 			}
 
