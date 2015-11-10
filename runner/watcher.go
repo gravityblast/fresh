@@ -9,30 +9,32 @@ import (
 )
 
 func watchFolder(path string) {
-	watcher, err := fsnotify.NewWatcher()
-	if err != nil {
-		fatal(err)
-	}
-
-	go func() {
-		for {
-			select {
-			case ev := <-watcher.Event:
-				if isWatchedFile(ev.Name) {
-					watcherLog("sending event %s", ev)
-					startChannel <- ev.String()
-				}
-			case err := <-watcher.Error:
-				watcherLog("error: %s", err)
-			}
+	if !strings.Contains(path, "/node_modules") && !strings.Contains(path, "public/system/") && !strings.Contains(path, ".tmpl") {
+		watcher, err := fsnotify.NewWatcher()
+		if err != nil {
+			fatal(err)
 		}
-	}()
 
-	watcherLog("Watching %s", path)
-	err = watcher.Watch(path)
+		go func() {
+			for {
+				select {
+				case ev := <-watcher.Event:
+					if isWatchedFile(ev.Name) {
+						watcherLog("sending event %s", ev)
+						startChannel <- ev.String()
+					}
+				case err := <-watcher.Error:
+					watcherLog("error: %s", err)
+				}
+			}
+		}()
 
-	if err != nil {
-		fatal(err)
+		watcherLog("Watching %s", path)
+		err = watcher.Watch(path)
+
+		if err != nil {
+			fatal(err)
+		}
 	}
 }
 
