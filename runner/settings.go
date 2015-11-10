@@ -2,13 +2,14 @@ package runner
 
 import (
 	"fmt"
-	"github.com/pilu/config"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/pilu/config"
 )
 
 const (
@@ -19,10 +20,11 @@ const (
 var settings = map[string]string{
 	"config_path":       "./runner.conf",
 	"root":              ".",
+	"extra_dirs":        "",
 	"tmp_path":          "./tmp",
 	"build_name":        "runner-build",
 	"build_log":         "runner-build-errors.log",
-	"valid_ext":         ".go, .tpl, .tmpl, .html",
+	"valid_ext":         ".go",
 	"build_delay":       "600",
 	"colors":            "1",
 	"log_color_main":    "cyan",
@@ -107,6 +109,10 @@ func getenv(key, defaultValue string) string {
 
 func root() string {
 	return settings["root"]
+}
+
+func extraDirs() string {
+	return settings["extra_dirs"]
 }
 
 func tmpPath() string {
