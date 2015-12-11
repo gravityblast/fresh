@@ -1,6 +1,7 @@
 package runner
 
 import (
+	"flag"
 	"io"
 	"io/ioutil"
 	"os"
@@ -8,9 +9,14 @@ import (
 )
 
 func build() (string, bool) {
+	var cmd *exec.Cmd
 	buildLog("Building...")
-
-	cmd := exec.Command("go", "build", "-o", buildPath(), root())
+	if flag.Lookup("i").Value.String() == "true" {
+		buildLog("Installing...")
+		cmd = exec.Command("go", "build", "-i", "-o", buildPath(), root())
+	} else {
+		cmd = exec.Command("go", "build", "-o", buildPath(), root())
+	}
 
 	stderr, err := cmd.StderrPipe()
 	if err != nil {

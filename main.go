@@ -21,6 +21,7 @@ import (
 
 func main() {
 	configPath := flag.String("c", "", "config file path")
+	flag.Bool("i", false, "The -i flag installs the packages that are dependencies of the target.")
 	flag.Parse()
 
 	if *configPath != "" {
