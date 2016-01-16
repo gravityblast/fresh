@@ -2,13 +2,14 @@ package runner
 
 import (
 	"fmt"
-	"github.com/pilu/config"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/pilu/config"
 )
 
 const (
@@ -23,6 +24,7 @@ var settings = map[string]string{
 	"build_name":        "runner-build",
 	"build_log":         "runner-build-errors.log",
 	"valid_ext":         ".go, .tpl, .tmpl, .html",
+	"ignored":           "assets, tmp",
 	"build_delay":       "600",
 	"colors":            "1",
 	"log_color_main":    "cyan",

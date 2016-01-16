@@ -1,8 +1,9 @@
 package runner
 
 import (
-	assert "github.com/pilu/miniassert"
 	"testing"
+
+	assert "github.com/pilu/miniassert"
 )
 
 func TestIsWatchedFile(t *testing.T) {
@@ -18,4 +19,10 @@ func TestIsWatchedFile(t *testing.T) {
 
 	// files in tmp
 	assert.False(t, isWatchedFile("./tmp/test.go"))
+}
+
+func TestIsIgnoredFolder(t *testing.T) {
+	assert.True(t, isIgnoredFolder("assets/node_module"))
+	assert.False(t, isIgnoredFolder("app/controllers"))
+	assert.True(t, isIgnoredFolder("tmp/pid"))
 }
