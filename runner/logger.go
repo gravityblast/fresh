@@ -22,7 +22,7 @@ func newLogFunc(prefix string) func(string, ...interface{}) {
 
 	return func(format string, v ...interface{}) {
 		now := time.Now()
-		timeString := now.Format("15:04:06")
+		timeString := now.Format("15:04:05")
 		format = fmt.Sprintf("%s%s %s |%s %s", color, timeString, prefix, clear, format)
 		logger.Printf(format, v...)
 	}
