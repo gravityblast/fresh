@@ -12,7 +12,7 @@ type logFunc func(string, ...interface{})
 
 var logger = logPkg.New(colorable.NewColorableStderr(), "", 0)
 
-func newLogFunc(prefix string) func(string, ...interface{}) {
+func newLogFunc(prefix string, withEscape bool) func(string, ...interface{}) {
 	color, clear := "", ""
 	if settings["colors"] == "1" {
 		color = fmt.Sprintf("\033[%sm", logColor(prefix))
@@ -24,7 +24,11 @@ func newLogFunc(prefix string) func(string, ...interface{}) {
 		now := time.Now()
 		timeString := fmt.Sprintf("%d:%d:%02d", now.Hour(), now.Minute(), now.Second())
 		format = fmt.Sprintf("%s%s %s |%s %s", color, timeString, prefix, clear, format)
-		logger.Printf(format, v...)
+		if withEscape {
+			logger.Printf(format, v...)
+		} else {
+			logger.Print(format)
+		}
 	}
 }
 
