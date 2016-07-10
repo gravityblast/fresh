@@ -22,7 +22,6 @@ import (
 
 func main() {
 
-	fmt.Println("from here")
 	configPath := flag.String("c", "", "config file path")
 	flag.Parse()
 
