@@ -25,12 +25,14 @@ func isTmpDir(path string) bool {
 
 func isIgnoredFolder(path string) bool {
 	paths := strings.Split(path, "/")
-	if len(paths) <= 0 {
+	pathsOnWindows := strings.Split(path, "\\")
+
+	if len(paths) <= 0 || len(pathsOnWindows) <= 0 {
 		return false
 	}
 
 	for _, e := range strings.Split(settings["ignored"], ",") {
-		if strings.TrimSpace(e) == paths[0] {
+		if strings.TrimSpace(e) == paths[0] || strings.TrimSpace(e) == pathsOnWindows[0] {
 			return true
 		}
 	}
