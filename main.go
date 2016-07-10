@@ -15,11 +15,14 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/pilu/fresh/runner"
 	"os"
+
+	"github.com/cristian-sima/fresh/runner"
 )
 
 func main() {
+
+	fmt.Println("from here")
 	configPath := flag.String("c", "", "config file path")
 	flag.Parse()
 
