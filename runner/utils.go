@@ -1,6 +1,7 @@
 package runner
 
 import (
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -30,6 +31,8 @@ func isIgnoredFolder(path string) bool {
 	}
 
 	for _, e := range strings.Split(settings["ignored"], ",") {
+		log.Println("test [" + strings.TrimSpace(e) + "] with [" + paths[0] + "]")
+
 		if strings.TrimSpace(e) == paths[0] {
 			return true
 		}

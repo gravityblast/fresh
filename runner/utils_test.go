@@ -23,6 +23,9 @@ func TestIsWatchedFile(t *testing.T) {
 
 func TestIsIgnoredFolder(t *testing.T) {
 	assert.True(t, isIgnoredFolder("assets/node_module"))
+	assert.True(t, isIgnoredFolder("assets/node_module/extra_module"))
+	assert.True(t, isIgnoredFolder("assets/node_module/extra_module/asdasd"))
+	assert.True(t, isIgnoredFolder("assets/node_module/extra_module/asdasd/aaaa"))
 	assert.False(t, isIgnoredFolder("app/controllers"))
 	assert.True(t, isIgnoredFolder("tmp/pid"))
 }
