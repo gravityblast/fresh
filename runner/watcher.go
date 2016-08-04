@@ -9,7 +9,7 @@ import (
 )
 
 func watchFolder(path string) {
-	if !strings.Contains(path, "vendor/") && !strings.Contains(path, "node_modules") && !strings.Contains(path, "public/system/") && !strings.Contains(path, ".tmpl") {
+	if !strings.Contains(path, "vendor/") && !strings.Contains(path, "bower_components") && !strings.Contains(path, "node_modules") && !strings.Contains(path, "public/system/") && !strings.Contains(path, ".tmpl") {
 		watcher, err := fsnotify.NewWatcher()
 		if err != nil {
 			fatal(err)
