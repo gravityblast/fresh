@@ -111,6 +111,14 @@ func root() string {
 	return settings["root"]
 }
 
+func rootorwatchdir() string {
+	if settings["watch_dir"] != "" {
+		return settings["watch_dir"]
+	} else {
+		return root()
+	}
+}
+
 func tmpPath() string {
 	return settings["tmp_path"]
 }
