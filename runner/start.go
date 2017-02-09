@@ -54,19 +54,22 @@ func start() {
 				mainLog(err.Error())
 			}
 
-			errorMessage, ok := build()
-			if !ok {
-				mainLog("Build Failed: \n %s", errorMessage)
-				if !started {
-					os.Exit(1)
+			if shouldRebuild(eventName) {
+				errorMessage, ok := build()
+				if !ok {
+					mainLog("Build Failed: \n %s", errorMessage)
+					if !started {
+						os.Exit(1)
+					}
+					createBuildErrorsLog(errorMessage)
+					return
 				}
-				createBuildErrorsLog(errorMessage)
-			} else {
-				if started {
-					stopChannel <- true
-				}
-				run()
 			}
+
+			if started {
+				stopChannel <- true
+			}
+			run()
 
 			started = true
 			mainLog(strings.Repeat("-", 20))

@@ -56,6 +56,16 @@ func isWatchedFile(path string) bool {
 	return false
 }
 
+func shouldRebuild(eventName string) bool {
+	for _, e := range strings.Split(settings["rebuild_ext"], ",") {
+		if strings.HasSuffix(eventName, e) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func createBuildErrorsLog(message string) bool {
 	file, err := os.Create(buildErrorsFilePath())
 	if err != nil {

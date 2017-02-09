@@ -24,6 +24,7 @@ var settings = map[string]string{
 	"build_name":        "runner-build",
 	"build_log":         "runner-build-errors.log",
 	"valid_ext":         ".go, .tpl, .tmpl, .html",
+	"rebuild_ext":       ".go",
 	"ignored":           "assets, tmp",
 	"build_delay":       "600",
 	"colors":            "1",
