@@ -6,6 +6,7 @@ valid_ext:         .go, .tpl, .tmpl, .html
 ignored:           assets, tmp
 build_delay:       600
 colors:            1
+environ:           TEST_MODE=1
 log_color_main:    cyan
 log_color_build:   yellow
 log_color_runner:  green
