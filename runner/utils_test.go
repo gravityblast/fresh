@@ -35,7 +35,6 @@ func TestShouldRebuild(t *testing.T) {
 		{`"test.go": MODIFIED`, true},
 		{`"test.tpl": MODIFIED`, false},
 		{`"test.tmpl": DELETED`, false},
-		{`"test-executable: MODIFIED`, false},
 		{`"./a/path/test.go": MODIFIED`, true},
 	}
 
@@ -43,7 +42,7 @@ func TestShouldRebuild(t *testing.T) {
 		actual := shouldRebuild(test.eventName)
 
 		if actual != test.expected {
-			t.Errorf("Expected %v, got %v", test.expected, actual)
+			t.Errorf("Expected %v, got %v (event was '%s')", test.expected, actual, test.eventName)
 		}
 	}
 }
