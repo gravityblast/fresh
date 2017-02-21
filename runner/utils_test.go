@@ -32,13 +32,11 @@ func TestShouldRebuild(t *testing.T) {
 		eventName string
 		expected  bool
 	}{
-		{"test.go", true},
-		{"test.tpl", false},
-		{"test.tmpl", false},
-		{"test.html", false},
-		{"test.css", false},
-		{"test-executable", false},
-		{"./tmp/test.go", true},
+		{`"test.go": MODIFIED`, true},
+		{`"test.tpl": MODIFIED`, false},
+		{`"test.tmpl": DELETED`, false},
+		{`"test-executable: MODIFIED`, false},
+		{`"./a/path/test.go": MODIFIED`, true},
 	}
 
 	for _, test := range tests {

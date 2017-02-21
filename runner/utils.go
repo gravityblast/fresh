@@ -58,7 +58,8 @@ func isWatchedFile(path string) bool {
 
 func shouldRebuild(eventName string) bool {
 	for _, e := range strings.Split(settings["rebuild_ext"], ",") {
-		if strings.HasSuffix(eventName, e) {
+		fileName := strings.Replace(strings.Split(eventName, ":")[0], `"`, "", -1)
+		if strings.HasSuffix(fileName, e) {
 			return true
 		}
 	}
