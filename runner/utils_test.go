@@ -35,6 +35,8 @@ func TestShouldRebuild(t *testing.T) {
 		{`"test.go": MODIFIED`, true},
 		{`"test.tpl": MODIFIED`, false},
 		{`"test.tmpl": DELETED`, false},
+		{`"unknown.extension": DELETED`, true},
+		{`"no_extension": ADDED`, true},
 		{`"./a/path/test.go": MODIFIED`, true},
 	}
 
