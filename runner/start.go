@@ -54,19 +54,21 @@ func start() {
 				mainLog(err.Error())
 			}
 
-			errorMessage, ok := build()
-			if !ok {
-				mainLog("Build Failed: \n %s", errorMessage)
-				if !started {
-					os.Exit(1)
+			// only build .go file
+			if strings.Contains(eventName, ".go") {
+				errorMessage, ok := build()
+				if !ok {
+					mainLog("Build Failed: \n %s", errorMessage)
+					if !started {
+						os.Exit(1)
+					}
+					createBuildErrorsLog(errorMessage)
 				}
-				createBuildErrorsLog(errorMessage)
-			} else {
-				if started {
-					stopChannel <- true
-				}
-				run()
 			}
+			if started {
+				stopChannel <- true
+			}
+			run()
 
 			started = true
 			mainLog(strings.Repeat("-", 20))
