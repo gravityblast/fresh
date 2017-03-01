@@ -13,22 +13,25 @@ Traffic (https://github.com/pilu/traffic) already has a middleware that shows th
 package main
 
 import (
-	"flag"
 	"fmt"
 	"github.com/pilu/fresh/runner"
 	"os"
 )
 
 func main() {
-	configPath := flag.String("c", "", "config file path")
-	flag.Parse()
 
-	if *configPath != "" {
-		if _, err := os.Stat(*configPath); err != nil {
-			fmt.Printf("Can't find config file `%s`\n", *configPath)
+	configPath := ""
+	args := os.Args
+	if len(args) > 2 && args[1] == "-c" {
+		configPath = args[2]
+	}
+
+	if configPath != "" {
+		if _, err := os.Stat(configPath); err != nil {
+			fmt.Printf("Can't find config file `%s`\n", configPath)
 			os.Exit(1)
 		} else {
-			os.Setenv("RUNNER_CONFIG_PATH", *configPath)
+			os.Setenv("RUNNER_CONFIG_PATH", configPath)
 		}
 	}
 
