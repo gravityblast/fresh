@@ -37,7 +37,7 @@ func watchFolder(path string) {
 }
 
 func watch() {
-	root := root()
+	root := rootorwatchdir()
 	filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() && !isTmpDir(path) {
 			if len(path) > 1 && strings.HasPrefix(filepath.Base(path), ".") {
