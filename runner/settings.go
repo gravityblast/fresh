@@ -127,6 +127,16 @@ func buildPath() string {
 	return p
 }
 
+func setenvs() {
+	if settings["environ"] != "" {
+		for _, v := range strings.Split(settings["environ"], ",") {
+			x := strings.Split(v, "=")
+			os.Setenv(x[0], x[1])
+		}
+	}
+
+}
+
 func buildErrorsFileName() string {
 	return settings["build_log"]
 }

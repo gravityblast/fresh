@@ -6,6 +6,8 @@ import (
 )
 
 func run() bool {
+	setenvs()
+
 	runnerLog("Running...")
 
 	cmd := exec.Command(buildPath())
