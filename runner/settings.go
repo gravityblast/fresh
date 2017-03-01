@@ -119,6 +119,11 @@ func tmpPath() string {
 func buildName() string {
 	return settings["build_name"]
 }
+
+func argName() string {
+	return settings["args"]
+}
+
 func buildPath() string {
 	p := filepath.Join(tmpPath(), buildName())
 	if runtime.GOOS == "windows" && filepath.Ext(p) != ".exe" {
