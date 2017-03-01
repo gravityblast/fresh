@@ -37,6 +37,7 @@ Here is a sample config file with the default settings:
     build_name:        runner-build
     build_log:         runner-build-errors.log
     valid_ext:         .go, .tpl, .tmpl, .html
+    no_rebuild_ext:    .tpl, .tmpl, .html
     ignored:           assets, tmp
     build_delay:       600
     colors:            1
@@ -45,6 +46,7 @@ Here is a sample config file with the default settings:
     log_color_runner:  green
     log_color_watcher: magenta
     log_color_app:
+
 
 ## Author
 
