@@ -10,7 +10,10 @@ import (
 func build() (string, bool) {
 	buildLog("Building...")
 
-	cmd := exec.Command("go", "build", "-o", buildPath(), root())
+	args := append([]string{"go", "build", "-o", buildPath()}, buildArgs()...)
+
+	cmd := exec.Command(args[0], args[1:]...)
+	cmd.Dir = root()
 
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
