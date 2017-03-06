@@ -138,6 +138,5 @@ func configPath() string {
 
 func buildDelay() time.Duration {
 	value, _ := strconv.Atoi(settings["build_delay"])
-
-	return time.Duration(value)
+	return time.Duration(value) * time.Millisecond
 }

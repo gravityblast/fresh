@@ -19,12 +19,16 @@ var (
 	appLog       logFunc
 )
 
-func flushEvents() {
+func flushEvents(delay time.Duration) {
+
 	for {
+		t := time.NewTicker(delay)
 		select {
 		case eventName := <-startChannel:
 			mainLog("receiving event %s", eventName)
-		default:
+			t.Stop()
+		case _ = <-t.C:
+			t.Stop()
 			return
 		}
 	}
@@ -43,11 +47,10 @@ func start() {
 			eventName := <-startChannel
 
 			mainLog("receiving first event %s", eventName)
-			mainLog("sleeping for %d milliseconds", buildDelay)
-			time.Sleep(buildDelay * time.Millisecond)
+			mainLog("sleeping for %d milliseconds", buildDelay/1e6)
 			mainLog("flushing events")
 
-			flushEvents()
+			flushEvents(buildDelay)
 
 			mainLog("Started! (%d Goroutines)", runtime.NumGoroutine())
 			err := removeBuildErrorsLog()

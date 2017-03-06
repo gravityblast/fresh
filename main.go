@@ -14,7 +14,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/pilu/fresh/runner"
+	"github.com/icattlecoder/fresh/runner"
 	"os"
 )
 
