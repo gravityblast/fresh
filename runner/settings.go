@@ -33,6 +33,7 @@ var settings = map[string]string{
 	"log_color_runner":  "green",
 	"log_color_watcher": "magenta",
 	"log_color_app":     "",
+	"ignore_dirs":       "",
 }
 
 var colors = map[string]string{
