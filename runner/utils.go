@@ -16,6 +16,14 @@ func initFolders() {
 	}
 }
 
+func isExcludedDir(path string) bool {
+	absPath, _ := filepath.Abs(path)
+	if _, ok := excludedDirs[absPath]; ok {
+		return true
+	}
+	return false
+}
+
 func isTmpDir(path string) bool {
 	absolutePath, _ := filepath.Abs(path)
 	absoluteTmpPath, _ := filepath.Abs(tmpPath())
