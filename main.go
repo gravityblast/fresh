@@ -15,7 +15,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/pilu/fresh/runner"
+	"github.com/go-gem/fresh/runner"
 	"os"
 )
 
