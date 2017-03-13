@@ -50,13 +50,19 @@ func TestShouldRebuild(t *testing.T) {
 }
 
 func TestIsIgnoredFolder(t *testing.T) {
+	settings["ignored"] = "tmp, assets, app/controllers"
 	tests := []struct {
 		dir      string
 		expected bool
 	}{
+		{"assets", true},
 		{"assets/node_modules", true},
+		{"tmp", true},
 		{"tmp/pid", true},
-		{"app/controllers", false},
+		{"app", false},
+		{"app/controllers", true},
+		{"app/controllers/user", true},
+		{"app/views", false},
 	}
 
 	for _, test := range tests {

@@ -30,8 +30,17 @@ func isIgnoredFolder(path string) bool {
 	}
 
 	for _, e := range strings.Split(settings["ignored"], ",") {
-		if strings.TrimSpace(e) == paths[0] {
-			return true
+		ignoredPaths := strings.Split(strings.TrimSpace(e), "/")
+		if len(ignoredPaths) <= len(paths) {
+			i := 0
+			for ; i < len(ignoredPaths); i++ {
+				if paths[i] != ignoredPaths[i] {
+					break
+				}
+			}
+			if i == len(ignoredPaths) {
+				return true
+			}
 		}
 	}
 	return false
