@@ -27,6 +27,7 @@ var settings = map[string]string{
 	"no_rebuild_ext":    ".tpl, .tmpl, .html",
 	"ignored":           "assets, tmp",
 	"build_delay":       "600",
+	"poll_duration":     "",
 	"colors":            "1",
 	"log_color_main":    "cyan",
 	"log_color_build":   "yellow",
@@ -143,4 +144,12 @@ func buildDelay() time.Duration {
 	value, _ := strconv.Atoi(settings["build_delay"])
 
 	return time.Duration(value)
+}
+
+func pollDuration() (bool, time.Duration) {
+	if settings["poll_duration"] != "" {
+		value, _ := time.ParseDuration(settings["poll_duration"])
+		return true, value
+	}
+	return false, 0
 }

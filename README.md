@@ -40,6 +40,7 @@ Here is a sample config file with the default settings:
     no_rebuild_ext:    .tpl, .tmpl, .html
     ignored:           assets, tmp
     build_delay:       600
+    poll_duration:
     colors:            1
     log_color_main:    cyan
     log_color_build:   yellow
