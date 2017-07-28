@@ -73,6 +73,7 @@ func start() {
 				}
 				run()
 			}
+            watch()
 
 			started = true
 			mainLog(strings.Repeat("-", 20))
@@ -113,8 +114,8 @@ func Start() {
 	initSettings()
 	initLogFuncs()
 	initFolders()
+    initWatcher()
 	setEnvVars()
-	watch()
 	start()
 	startChannel <- "/"
 
