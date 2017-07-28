@@ -3,7 +3,6 @@ package runner
 import (
 	"os"
 	"strings"
-
 	"fmt"
 	"github.com/howeyc/fsnotify"
 	"io"
@@ -19,40 +18,40 @@ var goPaths = []string{}
 var watcher *fsnotify.Watcher
 
 func initWatcher() {
-    // parse running package name
+	// parse running package name
 	separator := ":"
 	if runtime.GOOS == "windows" {
 		separator = ";"
 	}
 	goPaths = strings.Split(os.Getenv("GOPATH"), separator)
 	root := root()
-    dir, err := os.Getwd()
-    if err != nil {
-        fatal(err)
-    }
+	dir, err := os.Getwd()
+	if err != nil {
+		fatal(err)
+	}
 	if root != "." {
-        pkgName = root
-        for _, gopath := range goPaths {
-            pkgPath = gopath + "/src/" + pkgName
-            e, err := exists(pkgPath)
-            if err != nil {
-                fatal(err)
-            }
-            if e {
-                break
-            }
-        }
+		pkgName = root
+		for _, gopath := range goPaths {
+			pkgPath = gopath + "/src/" + pkgName
+			e, err := exists(pkgPath)
+			if err != nil {
+				fatal(err)
+			}
+			if e {
+				break
+			}
+		}
 	} else {
-        for _, gopath := range goPaths {
-            if strings.HasPrefix(dir, gopath) && len(dir) > len(gopath)+5 {
-                pkgName = dir[len(gopath)+5:]
-                pkgPath = dir
-                break
-            }
-        }
-    }
+		for _, gopath := range goPaths {
+			if strings.HasPrefix(dir, gopath) && len(dir) > len(gopath)+5 {
+				pkgName = dir[len(gopath)+5:]
+				pkgPath = dir
+				break
+			}
+		}
+	}
 
-    // init watcher
+	// init watcher
 	watcher, err = fsnotify.NewWatcher()
 	if err != nil {
 		fatal(err)
@@ -144,10 +143,10 @@ func watch() {
 	for folder, _ := range _watchedFolders {
 		_, ok := watchedFolders[folder]
 		if !ok && !isTmpDir(folder) {
-            if isIgnoredFolder(folder) {
-                watcherLog("Ignoring %s", folder)
-                continue
-            }
+			if isIgnoredFolder(folder) {
+				watcherLog("Ignoring %s", folder)
+				continue
+			}
 			watcherLog("add watch %s", folder)
 			err := watcher.Watch(folder)
 			if err != nil {
