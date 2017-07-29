@@ -6,6 +6,7 @@ import (
 	"runtime"
 	"strings"
 	"time"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -95,6 +96,10 @@ func initLogFuncs() {
 }
 
 func setEnvVars() {
+	err := godotenv.Load(envFile())
+	if err != nil {
+		fatal(err)
+	}
 	os.Setenv("DEV_RUNNER", "1")
 	wd, err := os.Getwd()
 	if err == nil {
