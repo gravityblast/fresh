@@ -18,21 +18,22 @@ const (
 )
 
 var settings = map[string]string{
-	"config_path":       "./runner.conf",
-	"root":              ".",
-	"tmp_path":          "./tmp",
-	"build_name":        "runner-build",
-	"build_log":         "runner-build-errors.log",
-	"valid_ext":         ".go, .tpl, .tmpl, .html",
-	"no_rebuild_ext":    ".tpl, .tmpl, .html",
-	"ignored":           "assets, tmp",
-	"build_delay":       "600",
-	"colors":            "1",
-	"log_color_main":    "cyan",
-	"log_color_build":   "yellow",
-	"log_color_runner":  "green",
-	"log_color_watcher": "magenta",
-	"log_color_app":     "",
+	"config_path":        "./runner.conf",
+	"root":               ".",
+	"tmp_path":           "./tmp",
+	"build_name":         "runner-build",
+	"build_log":          "runner-build-errors.log",
+	"valid_ext":          ".go, .tpl, .tmpl, .html",
+	"no_rebuild_ext":     ".tpl, .tmpl, .html",
+	"ignored":            "assets, tmp",
+	"build_delay":        "600",
+	"colors":             "1",
+	"log_color_main":     "cyan",
+	"log_color_build":    "yellow",
+	"log_color_runner":   "green",
+	"log_color_watcher":  "magenta",
+	"log_color_listener": "blue",
+	"log_color_app":      "",
 }
 
 var colors = map[string]string{
