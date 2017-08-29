@@ -35,7 +35,7 @@ func fatal(err error) {
 type appLogWriter struct{}
 
 func (a appLogWriter) Write(p []byte) (n int, err error) {
-	appLog(string(p))
+	appLog(strings.Replace(string(p), "%", "%%", -1))
 
 	return len(p), nil
 }
