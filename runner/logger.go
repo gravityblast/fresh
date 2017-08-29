@@ -4,6 +4,7 @@ import (
 	"fmt"
 	logPkg "log"
 	"time"
+	"strings"
 
 	"github.com/mattn/go-colorable"
 )
