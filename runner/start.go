@@ -96,10 +96,12 @@ func initLogFuncs() {
 }
 
 func setEnvVars() {
-	err := godotenv.Load(envFile())
-	if err != nil {
-		fatal(err)
-	}
+	if _, err := os.Stat(envFile()); !os.IsNotExist(err) {
+                err := godotenv.Load(envFile())
+                if err != nil {
+                        fatal(err)
+                }
+        }
 	os.Setenv("DEV_RUNNER", "1")
 	wd, err := os.Getwd()
 	if err == nil {
