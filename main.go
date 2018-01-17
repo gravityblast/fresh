@@ -15,7 +15,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/pilu/fresh/runner"
+	"github.com/taoza/fresh/runner"
 	"os"
 )
 
@@ -32,5 +32,5 @@ func main() {
 		}
 	}
 
-	runner.Start()
+	runner.Start(flag.Args())
 }
