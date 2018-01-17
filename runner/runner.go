@@ -5,10 +5,10 @@ import (
 	"os/exec"
 )
 
-func run() bool {
+func run(args []string) bool {
 	runnerLog("Running...")
 
-	cmd := exec.Command(buildPath())
+	cmd := exec.Command(buildPath(), args...)
 
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
