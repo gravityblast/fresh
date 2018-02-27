@@ -87,3 +87,15 @@ func removeBuildErrorsLog() error {
 
 	return err
 }
+
+func getDirsToWatch() []string {
+	dirs := []string{root()}
+
+	include := strings.Trim(include(), " :")
+	if len(include) > 0 {
+		includeDirs := strings.Split(include, ":")
+		dirs = append(dirs, includeDirs...)
+	}
+
+	return dirs
+}
