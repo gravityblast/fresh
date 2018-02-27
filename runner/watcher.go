@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/howeyc/fsnotify"
+	"log"
 )
 
 func watchFolder(path string) {
@@ -41,6 +42,10 @@ func watch() {
 
 	for _, dir := range dirs {
 		filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				log.Fatal(err)
+			}
+
 			if info.IsDir() && !isTmpDir(path) {
 				if len(path) > 1 && strings.HasPrefix(filepath.Base(path), ".") {
 					return filepath.SkipDir
