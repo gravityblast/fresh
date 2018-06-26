@@ -20,6 +20,7 @@ const (
 var settings = map[string]string{
 	"config_path":       "./runner.conf",
 	"root":              ".",
+	"subfolder":         "",
 	"tmp_path":          "./tmp",
 	"build_name":        "runner-build",
 	"build_log":         "runner-build-errors.log",
@@ -114,6 +115,10 @@ func root() string {
 
 func tmpPath() string {
 	return settings["tmp_path"]
+}
+
+func subfolder() []string {
+	return strings.Split(settings["subfolder"], ",")
 }
 
 func buildName() string {
