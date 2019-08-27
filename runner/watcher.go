@@ -54,4 +54,30 @@ func watch() {
 
 		return err
 	})
+
+	subfolders := subfolder()
+	for _, subfolder := range subfolders {
+		if len(subfolder) == 0 {
+			continue
+		}
+		filepath.Walk(strings.TrimSpace(subfolder), func(path string, info os.FileInfo, err error) error {
+			if info == nil {
+				return err
+			}
+			if info.IsDir() && !isTmpDir(path) {
+				if len(path) > 1 && strings.HasPrefix(filepath.Base(path), ".") {
+					return filepath.SkipDir
+				}
+
+				if isIgnoredFolder(path) {
+					watcherLog("Ignoring %s", path)
+					return filepath.SkipDir
+				}
+
+				watchFolder(path)
+			}
+
+			return err
+		})
+	}
 }
