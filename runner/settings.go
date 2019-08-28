@@ -15,6 +15,7 @@ import (
 const (
 	envSettingsPrefix   = "RUNNER_"
 	mainSettingsSection = "Settings"
+	runFlagsDelimeter   = ", "
 )
 
 var settings = map[string]string{
@@ -23,6 +24,7 @@ var settings = map[string]string{
 	"tmp_path":          "./tmp",
 	"build_name":        "runner-build",
 	"build_log":         "runner-build-errors.log",
+	"run_flags":         "",
 	"valid_ext":         ".go, .tpl, .tmpl, .html",
 	"no_rebuild_ext":    ".tpl, .tmpl, .html",
 	"ignored":           "assets, tmp",
@@ -129,6 +131,10 @@ func buildPath() string {
 
 func buildErrorsFileName() string {
 	return settings["build_log"]
+}
+
+func runFlags() []string {
+	return strings.Split(settings["run_flags"], runFlagsDelimeter)
 }
 
 func buildErrorsFilePath() string {
