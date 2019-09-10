@@ -41,7 +41,7 @@ func isWatchedFile(path string) bool {
 	absolutePath, _ := filepath.Abs(path)
 	absoluteTmpPath, _ := filepath.Abs(tmpPath())
 
-	if strings.HasPrefix(absolutePath, absoluteTmpPath) {
+	if strings.HasPrefix(absolutePath, absoluteTmpPath+"/") {
 		return false
 	}
 
