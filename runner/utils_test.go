@@ -66,3 +66,22 @@ func TestIsIgnoredFolder(t *testing.T) {
 		}
 	}
 }
+
+func TestGetDirsToWatch(t *testing.T) {
+	settings["root"] = ".";
+	settings["include"] = "/absolute/path/to/packages:../relative/path/to/watch";
+
+
+	expected := []string{
+		".",
+		"/absolute/path/to/packages",
+		"../relative/path/to/watch",
+	}
+	actual := getDirsToWatch()
+
+	for i, e := range expected {
+		if e != actual[i] {
+			t.Errorf("Expected %v, got %v", expected, actual)
+		}
+	}
+}
