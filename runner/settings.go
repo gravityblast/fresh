@@ -21,6 +21,7 @@ var settings = map[string]string{
 	"config_path":       "./runner.conf",
 	"root":              ".",
 	"tmp_path":          "./tmp",
+	"build_command":     "go",
 	"build_name":        "runner-build",
 	"build_log":         "runner-build-errors.log",
 	"valid_ext":         ".go, .tpl, .tmpl, .html",
@@ -71,7 +72,7 @@ func logColor(logName string) string {
 }
 
 func loadEnvSettings() {
-	for key, _ := range settings {
+	for key := range settings {
 		envKey := fmt.Sprintf("%s%s", envSettingsPrefix, strings.ToUpper(key))
 		if value := os.Getenv(envKey); value != "" {
 			settings[key] = value
@@ -116,9 +117,14 @@ func tmpPath() string {
 	return settings["tmp_path"]
 }
 
+func buildCommand() string {
+	return settings["build_command"]
+}
+
 func buildName() string {
 	return settings["build_name"]
 }
+
 func buildPath() string {
 	p := filepath.Join(tmpPath(), buildName())
 	if runtime.GOOS == "windows" && filepath.Ext(p) != ".exe" {
