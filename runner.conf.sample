@@ -1,4 +1,5 @@
 root:              .
+watch_path:        .
 tmp_path:          ./tmp
 build_name:        runner-build
 build_log:         runner-build-errors.log
