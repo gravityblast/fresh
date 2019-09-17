@@ -3,8 +3,8 @@
 package runner
 
 import (
-	"syscall"
 	"fmt"
+	"syscall"
 )
 
 func initLimit() {
