@@ -6,6 +6,7 @@ import (
 	"runtime"
 	"strings"
 	"time"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -73,6 +74,7 @@ func start() {
 				}
 				run()
 			}
+			watch()
 
 			started = true
 			mainLog(strings.Repeat("-", 20))
@@ -94,6 +96,12 @@ func initLogFuncs() {
 }
 
 func setEnvVars() {
+	if _, err := os.Stat(envFile()); !os.IsNotExist(err) {
+                err := godotenv.Load(envFile())
+                if err != nil {
+                        fatal(err)
+                }
+        }
 	os.Setenv("DEV_RUNNER", "1")
 	wd, err := os.Getwd()
 	if err == nil {
@@ -113,8 +121,8 @@ func Start() {
 	initSettings()
 	initLogFuncs()
 	initFolders()
+	initWatcher()
 	setEnvVars()
-	watch()
 	start()
 	startChannel <- "/"
 
