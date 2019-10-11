@@ -13,6 +13,7 @@ var (
 	stopChannel  chan bool
 	mainLog      logFunc
 	watcherLog   logFunc
+	listenerLog  logFunc
 	runnerLog    logFunc
 	buildLog     logFunc
 	appLog       logFunc
@@ -88,6 +89,7 @@ func init() {
 func initLogFuncs() {
 	mainLog = newLogFunc("main")
 	watcherLog = newLogFunc("watcher")
+	listenerLog = newLogFunc("listener")
 	runnerLog = newLogFunc("runner")
 	buildLog = newLogFunc("build")
 	appLog = newLogFunc("app")
@@ -115,6 +117,7 @@ func Start() {
 	initFolders()
 	setEnvVars()
 	watch()
+	listen()
 	start()
 	startChannel <- "/"
 
