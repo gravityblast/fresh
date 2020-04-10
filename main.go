@@ -15,12 +15,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/pilu/fresh/runner"
 	"os"
+
+	"github.com/pilu/fresh/runner"
 )
 
 func main() {
-	configPath := flag.String("c", "", "config file path")
+	configPath := flag.String("c", "fresh.conf", "config file path")
 	flag.Parse()
 
 	if *configPath != "" {
