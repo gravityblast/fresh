@@ -14,7 +14,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/pilu/fresh/runner"
@@ -26,8 +26,7 @@ func main() {
 
 	if *configPath != "" {
 		if _, err := os.Stat(*configPath); err != nil {
-			fmt.Printf("Can't find config file `%s`\n", *configPath)
-			os.Exit(1)
+			log.Println("Could not find config file, using defaults.", configPath)
 		} else {
 			os.Setenv("RUNNER_CONFIG_PATH", *configPath)
 		}
