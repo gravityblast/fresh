@@ -14,6 +14,21 @@ It currently works with [Traffic](https://github.com/pilu/traffic), [Martini](ht
 ## Installation
 
     go get github.com/pilu/fresh
+    
+### Via `go install`
+
+Make sure you have correct config GOPATH in your `~/.bash_profile` or `~/.zshrc`
+
+```bash
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+```
+
+With go 1.16 or higher:
+
+```bash
+go install github.com/pilu/fresh@latest
+```
 
 ## Usage
 
